@@ -1,4 +1,5 @@
 const express = require('express');
+const { dbCOnnection } = require('../database/config');
 const  router  = require('../routers/user');
 require('dotenv').config();
 
@@ -10,14 +11,23 @@ class Server  {
         this.app = express();
         this.port = process.env.PORT;
 
+        //CONNECTAR DB
 
+        this.conectarDB();
+
+        
         //MIDDLEWARES
         this.middlewares();
 
         //ROUTER
         this.router();
+
         
        
+    }
+
+    async conectarDB(){
+        await dbCOnnection();
     }
 
     middlewares(){
