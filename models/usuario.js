@@ -33,9 +33,11 @@ const UsuarioSchema = Schema({
         default:false
     },
 });
+//con esto extraemos lo que queremos la base de datos y sacarlo
 
-UsuarioSchema.methods.toJSON = function() {
-    const { __v, password, ...usuario } = this.toObject();
+UsuarioSchema.methods.toJSON = function() { // <--- cuando es llamdo el json se va ejecutar la funcion
+    const { __v, password, _id, ...usuario } = this.toObject(); //genera los objetos
+    usuario.uid = _id; //subcribiendo el nombre de ID
     return usuario;
 }
 

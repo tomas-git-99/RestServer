@@ -10,6 +10,8 @@ class Server  {
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
+        this.auth = '/api/auth';
+        this.user = '/api/user';
 
         //CONNECTAR DB
 
@@ -43,7 +45,8 @@ class Server  {
     router(){
 
         //USERS   
-        this.app.use('/api/user', require('../routers/user'));
+        this.app.use(this.auth, require('../routers/auth'));
+        this.app.use(this.user, require('../routers/user'));
     }
 
     listenStart(){
