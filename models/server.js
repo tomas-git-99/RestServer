@@ -4,6 +4,8 @@ const  router  = require('../routers/user');
 require('dotenv').config();
 const cors = require('cors');
 
+const fileUpload = require('express-fileupload');
+
 class Server  {
 
 
@@ -11,11 +13,12 @@ class Server  {
         this.app = express();
         this.port = process.env.PORT;
         this.path = {
+            buscar:'/api/buscar',
             user:'/api/user',
             auth:'/api/auth',
-            buscar:'/api/buscar',
             categoria: '/api/categorias',
-            productos: '/api/productos'
+            productos: '/api/productos',
+            uploads: '/api/uploads'
 
         }
 
@@ -45,7 +48,13 @@ class Server  {
         this.app.use(express.static('public'));
 
         //lectura y parseo del body
-        this.app.use( express.json());
+        this.app.use(express.json());
+
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath:true
+        }));
 
     }
 
@@ -57,6 +66,7 @@ class Server  {
         this.app.use(this.path.buscar, require('../routers/buscar'));
         this.app.use(this.path.user, require('../routers/user'));
         this.app.use(this.path.productos, require('../routers/productos'));
+        this.app.use(this.path.uploads, require('../routers/uploads'));
 
     }
 
